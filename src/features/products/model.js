@@ -33,18 +33,19 @@ function validOptions(options) {
 }
 
 export function formatPrice(value) {
+  const price = typeof value === "string" ? value.trim() : value;
   if (
-    value === "" ||
-    value == null ||
-    !Number.isFinite(Number(value)) ||
-    Number(value) < 0
+    (typeof price !== "string" && typeof price !== "number") ||
+    price === "" ||
+    !Number.isFinite(Number(price)) ||
+    Number(price) < 0
   )
     return "Precio no disponible";
   return new Intl.NumberFormat("es-ES", {
     style: "currency",
     currency: "EUR",
     maximumFractionDigits: 2,
-  }).format(Number(value));
+  }).format(Number(price));
 }
 
 export function filterProducts(products, query) {

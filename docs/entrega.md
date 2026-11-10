@@ -23,6 +23,8 @@ Esta lista contrasta la entrega con el PDF facilitado. Distingue los requisitos 
 
 Los commits posteriores mantienen esta checklist. El primer hito es documental y no ejecuta una aplicación; las instrucciones del README inicial describen el objetivo de la entrega. Los hitos de implementación y calidad contienen la aplicación ejecutable.
 
+La revisión posterior de calidad se añade como un nuevo commit con la etiqueta `hito-05-revision-calidad`. Su [informe](revision-final.md) recoge los ajustes y las comprobaciones ampliadas; los hitos originales conservan sus commits y etiquetas.
+
 Para inspeccionar el historial:
 
 ```sh

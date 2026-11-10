@@ -1,5 +1,11 @@
 import { beforeEach, expect, it, vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router";
 import { App } from "./App";
@@ -106,4 +112,61 @@ it("presenta una ruta inexistente con salida al catálogo", () => {
   expect(
     screen.getByRole("heading", { name: /Esta página/ }),
   ).toBeInTheDocument();
+});
+
+it("conserva los selectores visibles y bloquea la compra sin opciones", async () => {
+  api.getProduct.mockResolvedValueOnce({
+    ...normalizeProduct(detail),
+    colors: [],
+    storages: [],
+  });
+  mount("/products/phone-1");
+  await screen.findByRole("heading", { level: 1 });
+  expect(screen.getByLabelText("Color")).toBeDisabled();
+  expect(screen.getByLabelText("Almacenamiento")).toBeDisabled();
+  expect(screen.getByRole("button", { name: /Añadir/ })).toBeDisabled();
+  expect(screen.getByText(/no tiene opciones de compra/)).toBeInTheDocument();
+  expect(api.addToCart).not.toHaveBeenCalled();
+});
+
+it("descarta un contador persistido dañado sin bloquear la navegación", async () => {
+  localStorage.setItem("itx:cart:v1", '{"count":"corrupt"}');
+  mount();
+  await screen.findByRole("heading", { name: "Liquid Z6" });
+  expect(screen.getByLabelText("0 productos en la bolsa")).toBeInTheDocument();
+});
+
+it("ofrece volver al catálogo cuando la ficha no existe", async () => {
+  api.getProduct.mockRejectedValueOnce(
+    new Error("No encontramos este producto."),
+  );
+  const user = userEvent.setup();
+  mount("/products/missing");
+  expect(await screen.findByRole("alert")).toHaveTextContent(
+    "No encontramos este producto.",
+  );
+  await user.click(screen.getByRole("link", { name: /Volver a dispositivos/ }));
+  await screen.findByRole("heading", { name: "Liquid Z6" });
+});
+
+it("muestra un reemplazo legible cuando una fotografía falla", async () => {
+  mount("/products/phone-1");
+  const image = await screen.findByRole("img", { name: "Acer Liquid Z6" });
+  fireEvent.error(image);
+  expect(screen.getByText("Imagen no disponible")).toBeInTheDocument();
+});
+
+it("sincroniza el contador al cambiar o borrar el almacenamiento desde otra pestaña", async () => {
+  mount();
+  await screen.findByRole("heading", { name: "Liquid Z6" });
+  act(() => {
+    localStorage.setItem("itx:cart:v1", "5");
+    window.dispatchEvent(new StorageEvent("storage", { key: "itx:cart:v1" }));
+  });
+  expect(screen.getByLabelText("5 productos en la bolsa")).toBeInTheDocument();
+  act(() => {
+    localStorage.clear();
+    window.dispatchEvent(new StorageEvent("storage", { key: null }));
+  });
+  expect(screen.getByLabelText("0 productos en la bolsa")).toBeInTheDocument();
 });

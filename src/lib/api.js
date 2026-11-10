@@ -52,7 +52,7 @@ export const api = {
     const raw = await cache.get(
       `${API_URL}/product/${id}`,
       () => request(`/api/product/${encodeURIComponent(id)}`),
-      isProduct,
+      (value) => isProduct(value) && value.id === id,
     );
     return normalizeProduct(raw);
   },

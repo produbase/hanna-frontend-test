@@ -52,8 +52,18 @@ it("diferencia un 404 y permite reintentar tras un fallo", async () => {
       .mockResolvedValueOnce(reply({}, 404))
       .mockResolvedValueOnce(reply(detail)),
   );
-  await expect(api.getProduct("missing")).rejects.toThrow("No encontramos");
-  expect((await api.getProduct("missing")).id).toBe("phone-1");
+  await expect(api.getProduct("phone-1")).rejects.toThrow("No encontramos");
+  expect((await api.getProduct("phone-1")).id).toBe("phone-1");
+});
+it("rechaza y no cachea una ficha que pertenece a otro identificador", async () => {
+  const fetch = vi
+    .fn()
+    .mockResolvedValueOnce(reply({ ...detail, id: "other" }))
+    .mockResolvedValueOnce(reply(detail));
+  vi.stubGlobal("fetch", fetch);
+  await expect(api.getProduct("phone-1")).rejects.toThrow("datos");
+  expect((await api.getProduct("phone-1")).id).toBe("phone-1");
+  expect(fetch).toHaveBeenCalledTimes(2);
 });
 it("rechaza respuestas de catálogo con forma inválida", async () => {
   vi.stubGlobal(

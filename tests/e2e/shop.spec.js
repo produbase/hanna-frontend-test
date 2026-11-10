@@ -166,3 +166,98 @@ test("permite búsqueda y compra con teclado y opciones únicas", async ({
   await page.getByRole("button", { name: /Añadir/ }).press("Enter");
   await expect(page.getByText("Dispositivo añadido a tu bolsa.")).toBeVisible();
 });
+
+test("mantiene el catálogo y la ficha adaptativos entre 320 y 1920 píxeles", async ({
+  page,
+}, testInfo) => {
+  const widths =
+    testInfo.project.name === "mobile"
+      ? [320, 360, 390]
+      : [768, 1024, 1440, 1920];
+  for (const width of widths) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    await expect(
+      page.getByRole("heading", { name: "Liquid Z6" }),
+    ).toBeVisible();
+    const columns = await page
+      .locator(".product-grid")
+      .evaluate(
+        (grid) => getComputedStyle(grid).gridTemplateColumns.split(" ").length,
+      );
+    expect(columns).toBeLessThanOrEqual(4);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+      `Catálogo a ${width}px`,
+    ).toBe(true);
+    await page.getByRole("link", { name: /Liquid Z6/ }).click();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      "Liquid Z6",
+    );
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+      `Ficha a ${width}px`,
+    ).toBe(true);
+  }
+});
+
+test("envía el color y almacenamiento elegidos cuando ambos tienen varias opciones", async ({
+  page,
+}) => {
+  await page.route("**/api/product/phone-1", (route) =>
+    route.fulfill({
+      json: {
+        ...detail,
+        options: {
+          ...detail.options,
+          colors: [...detail.options.colors, { code: 1001, name: "White" }],
+        },
+      },
+    }),
+  );
+  let body;
+  await page.route("**/api/cart", (route) => {
+    body = route.request().postDataJSON();
+    return route.fulfill({ json: { count: 12 } });
+  });
+  await page.goto("/products/phone-1");
+  const add = page.getByRole("button", { name: "Añadir a la bolsa" });
+  await expect(add).toBeDisabled();
+  await page.getByLabel("Color", { exact: true }).selectOption("1001");
+  await expect(add).toBeDisabled();
+  await page.getByLabel("Almacenamiento").selectOption("2001");
+  await add.click();
+  await expect(page.getByText("Dispositivo añadido a tu bolsa.")).toBeVisible();
+  expect(body).toEqual({ id: "phone-1", colorCode: 1001, storageCode: 2001 });
+  await expect(page.getByLabel("12 productos en la bolsa")).toBeVisible();
+});
+
+test("reutiliza la ficha entre vistas y revalida su caché al caducar", async ({
+  page,
+}) => {
+  let requests = 0;
+  page.on("request", (request) => {
+    if (request.url().endsWith("/api/product/phone-1")) requests += 1;
+  });
+  await page.goto("/products/phone-1");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Liquid Z6");
+  await page.getByRole("link", { name: /Volver a dispositivos/ }).click();
+  await page.getByRole("link", { name: /Liquid Z6/ }).click();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Liquid Z6");
+  expect(requests).toBe(1);
+  await page.evaluate(() => {
+    const key = Object.keys(localStorage).find((key) =>
+      key.endsWith("/product/phone-1"),
+    );
+    const entry = JSON.parse(localStorage.getItem(key));
+    entry.expiresAt = Date.now() - 1;
+    localStorage.setItem(key, JSON.stringify(entry));
+  });
+  await page.reload();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Liquid Z6");
+  expect(requests).toBe(2);
+});

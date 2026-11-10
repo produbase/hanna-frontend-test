@@ -26,6 +26,10 @@ describe("modelo de producto", () => {
     expect(formatPrice(-1)).toBe("Precio no disponible");
     expect(formatPrice(0)).toContain("0,00");
     expect(formatPrice("120")).toContain("120,00");
+    expect(formatPrice("   ")).toBe("Precio no disponible");
+    expect(formatPrice(false)).toBe("Precio no disponible");
+    expect(formatPrice([])).toBe("Precio no disponible");
+    expect(formatPrice(" 120 ")).toContain("120,00");
   });
   it("normaliza las erratas del servicio y conserva códigos reales", () => {
     const result = normalizeProduct(detail);

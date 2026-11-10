@@ -9,7 +9,7 @@ if ! command -v node >/dev/null 2>&1; then
   if [ -x "$runtime_root/node/bin/node" ]; then
     export PATH="$runtime_root/node/bin:$runtime_root/bin/fallback:$PATH"
   else
-    echo 'Instala Node.js 22.12 o superior y pnpm 11.25.0 para continuar.' >&2
+    echo 'Instala Node.js 24.15 o superior de la rama 24 y pnpm 11.25.0 para continuar.' >&2
     exit 1
   fi
 fi

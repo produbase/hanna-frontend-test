@@ -123,15 +123,15 @@ Las comprobaciones se ejecutaron el 10 de noviembre de 2026 en el entorno local 
 
 ## Pruebas unitarias e integración
 
-Pasan 27 pruebas en cuatro archivos. Cubren el filtrado, acentos y espacios, precios ausentes y cero, adaptación del contrato, caché vigente y caducada, recuperación tras recarga, promesas compartidas, errores no cacheados, JSON corrupto y almacenamiento bloqueado.
+Pasan 35 pruebas en cinco archivos. Cubren el filtrado, acentos y espacios, precios ausentes y cero, adaptación del contrato, caché vigente y caducada, recuperación tras recarga, promesas compartidas, errores no cacheados, JSON corrupto y almacenamiento bloqueado.
 
 También cubren el contrato del POST, contadores inválidos, 404, respuestas malformadas, fallos de conexión y timeout. En la aplicación comprueban navegación, selección, persistencia del contador, recuperación de errores, conservación del filtro y prevención de envíos simultáneos.
 
-La última medición de cobertura sobre los archivos de aplicación configurados, excluyendo main.jsx y los propios tests, es 96,42 % de sentencias, 87,86 % de ramas, 95,77 % de funciones y 97,81 % de líneas. La cobertura ayuda a localizar huecos; no demuestra por sí sola ausencia de errores.
+La última medición de cobertura sobre los archivos de aplicación configurados, excluyendo main.jsx y los propios tests, es 97,97 % de sentencias, 93,25 % de ramas, 98,61 % de funciones y 99,45 % de líneas. La cobertura ayuda a localizar huecos; no demuestra por sí sola ausencia de errores.
 
 ## Pruebas de navegador
 
-Pasan 14 casos de Playwright: siete recorridos en escritorio y los mismos siete en un viewport móvil sobre Chromium. Cubren compra y persistencia, reutilización de GET, revalidación tras caducar, recuperación de error, acceso directo a la ficha, atributos y precio ausente, análisis axe, ausencia de desbordamiento y búsqueda y compra con teclado en un producto de opciones únicas.
+Pasan 20 casos de Playwright contra el build de producción: diez recorridos de escritorio y diez del perfil móvil sobre Chromium. Cubren compra y persistencia, reutilización de GET, revalidación tras caducar, recuperación de error, acceso directo a la ficha, atributos y precio ausente, análisis axe, ausencia de desbordamiento y búsqueda y compra con teclado en un producto de opciones únicas. Se comprueban además varios colores y capacidades, caché de la ficha y siete resoluciones entre 320 y 1920 píxeles.
 
 Los recorridos automáticos emplean fixtures e interceptan la API para ser deterministas. Las imágenes de estos casos son recursos de prueba. El perfil móvil emula tamaño y eventos táctiles en Chromium; no ejecuta Safari ni certifica compatibilidad con iOS real. El formato, lint y build se comprueban con sus respectivos scripts.
 
@@ -147,7 +147,7 @@ El workflow de GitHub Actions ejecuta instalación, lint, formato, cobertura, bu
 
 ## Ejecución y entrega
 
-Se necesita Node.js 22.12 o superior y pnpm 11.25.0. La validación local utilizó Node.js 24.22.1. Si pnpm no está instalado, puede instalarse mediante npm install --global pnpm@11.25.0.
+Se recomienda Node.js 24.15 o superior de la rama 24 y pnpm 11.25.0. La validación utilizó Node.js 24.22.1, fijado en .nvmrc. El rango de engines también admite Node 22.22.2 y Node 26 o posterior. Si pnpm no está instalado, puede instalarse mediante npm install --global pnpm@11.25.0.
 
 ```sh
 pnpm install --frozen-lockfile
@@ -173,7 +173,7 @@ README.md explica el arranque, los scripts y las decisiones principales. docs/me
 
 El primer commit incluye README, alcance e instrucciones. El siguiente incorpora las funcionalidades principales. Los hitos posteriores recogen pruebas de navegador, ajustes derivados de su ejecución, nombre Hanna y documentación final. El historial se puede inspeccionar con git log --oneline.
 
-El repositorio público es https://github.com/produbase/hanna-frontend-test, configurado como origin. Se realizaron subidas separadas para los cuatro hitos, conservando los commits originales y las etiquetas hito-01-readme, hito-02-aplicacion, hito-03-calidad y hito-04-documentacion. La revisión final de entrega se publica en main con la etiqueta entrega-final.
+El repositorio público es https://github.com/produbase/hanna-frontend-test, configurado como origin. Se realizaron subidas separadas para los cuatro hitos, conservando los commits originales y las etiquetas hito-01-readme, hito-02-aplicacion, hito-03-calidad y hito-04-documentacion. La entrega inicial se marca con entrega-final y su revisión posterior con hito-05-revision-calidad, ambas en el historial de main.
 
 ## Límites conocidos
 
