@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-10T18:46:16.077Z",
+  "source": "API real, sin interceptar peticiones",
+  "checks": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "products": 100,
+      "search": "passed",
+      "detail": "passed",
+      "images": "passed",
+      "overflow": false,
+      "runtimeErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "products": 100,
+      "search": "passed",
+      "detail": "passed",
+      "images": "passed",
+      "overflow": false,
+      "runtimeErrors": []
+    }
+  ],
+  "cartCount": 1
+}

@@ -1,10 +1,10 @@
-# ATELIER MOBILE
+# Hanna | Tienda online
 
 Prueba técnica de frontend: catálogo de dispositivos, detalle y carrito mediante la API de ITX. Aplicación SPA en React y JavaScript, sin SSR.
 
 ## Ejecutar
 
-Requisitos: Node.js 22.12 o superior y pnpm 10 (`corepack enable`).
+Requisitos: Node.js 22.12 o superior (validado con Node 24) y pnpm 11.25.0 (`npm install --global pnpm@11.25.0`).
 
 ```sh
 pnpm install --frozen-lockfile
@@ -13,15 +13,29 @@ pnpm start
 
 Abrir http://localhost:5173. No requiere claves ni backend propio.
 
+En este entorno de Codex también se puede ejecutar `./scripts/start-local.sh`, que detecta el runtime incluido si Node no está en el PATH.
+
 ```sh
 pnpm build        # salida estática en dist/
 pnpm preview      # previsualizar producción
 pnpm test         # pruebas unitarias y de integración
 pnpm lint         # análisis estático
 pnpm test:e2e     # navegador, API simulada determinista
+pnpm test:coverage # cobertura de las pruebas unitarias e integración
+pnpm format:check # formato del código
 ```
 
 Configuración opcional: copiar `.env.example` a `.env` y ajustar `VITE_API_URL`. La URL pública del enunciado es el valor por defecto. Para publicar `dist/`, configurar el servidor estático para devolver `index.html` en rutas desconocidas (SPA fallback).
+
+Las pruebas E2E locales utilizan Google Chrome instalado. En CI se instala Chromium automáticamente; el proyecto móvil emula un viewport y eventos táctiles sobre Chromium, sin afirmar compatibilidad con Safari. Para una comprobación voluntaria contra el servicio real, arrancar la aplicación y ejecutar `node scripts/verify-live.mjs`: realiza una petición real de alta en el carrito.
+
+## Decisiones principales
+
+Se usa el modo declarativo de React Router con actualizaciones síncronas porque los parámetros de búsqueda controlan el input. La búsqueda se guarda en la URL sin generar una entrada de historial por carácter. La capa de API valida el contrato mínimo y normaliza las erratas del servicio. La caché de GET usa memoria y localStorage con TTL de una hora y comparte peticiones en curso. El carrito persiste exclusivamente el contador confirmado por el POST.
+
+No hay backend propio ni checkout: la bolsa muestra el contador requerido por la prueba. La moneda EUR es una decisión de presentación porque la API entrega precios sin moneda. Los precios vacíos se presentan como no disponibles.
+
+Guías oficiales de referencia: [Vite](https://vite.dev/guide/), [React Router declarativo](https://reactrouter.com/start/declarative/installation) y [Vitest](https://vitest.dev/guide/).
 
 ## Alcance
 
