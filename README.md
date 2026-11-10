@@ -49,9 +49,9 @@ Guías oficiales de referencia: [Vite](https://vite.dev/guide/), [React Router d
 
 La memoria de arquitectura, decisiones y guía de defensa se encuentra en `docs/memoria-tecnica.md` y en el documento Word de `output/doc/`. Las pruebas de navegador y sus capturas se documentan allí.
 
-Repositorio preparado localmente con commits por hitos. La publicación en un repositorio público requiere configurar el destino Git del candidato.
+Repositorio público: [produbase/hanna-frontend-test](https://github.com/produbase/hanna-frontend-test). La publicación se realiza con subidas separadas por hitos, conservando los commits originales y sus etiquetas.
 
-La [checklist de entrega](docs/entrega.md) recoge cada requisito, su evidencia y los cuatro hitos con sus commits y etiquetas. El README está incluido desde el primer commit. La publicación debe conservar el historial completo, sin squash; las etiquetas locales todavía no están subidas a ningún remoto.
+La [checklist de entrega](docs/entrega.md) recoge cada requisito, su evidencia y los cuatro hitos con sus commits y etiquetas. El README está incluido desde el primer commit. El historial público conserva todos los commits, sin squash, y las etiquetas de los cuatro hitos están disponibles en [GitHub](https://github.com/produbase/hanna-frontend-test/tags). La revisión final se identifica con la etiqueta `entrega-final`.
 
 ## Uso de IA
 

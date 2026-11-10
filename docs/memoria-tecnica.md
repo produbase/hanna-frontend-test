@@ -4,7 +4,7 @@ Hanna | Tienda online · Prueba técnica de frontend · 10 de noviembre de 2026
 
 Esta memoria explica la aplicación construida para la prueba de Inditex, su arquitectura, los comportamientos implementados y la evidencia de validación. Está pensada para revisar la entrega y preparar su defensa en una entrevista de arquitectura.
 
-La solución es una SPA de React y JavaScript con catálogo, detalle y alta en carrito. Consume directamente la API del enunciado y conserva las lecturas durante una hora en el navegador. El alcance funcional está implementado y validado localmente. La publicación en un repositorio público queda pendiente de disponer del destino Git del candidato.
+La solución es una SPA de React y JavaScript con catálogo, detalle y alta en carrito. Consume directamente la API del enunciado y conserva las lecturas durante una hora en el navegador. El alcance funcional está implementado y validado localmente. La solución y sus hitos están publicados en el repositorio público https://github.com/produbase/hanna-frontend-test.
 
 ## Alcance implementado
 
@@ -141,7 +141,7 @@ El script scripts/verify-live.mjs se ejecutó sin interceptar peticiones, en vie
 
 En escritorio se realizó además una petición real al carrito. El servicio devolvió count igual a 1; ese valor apareció en la cabecera y sobrevivió a una recarga. La evidencia se conserva en output/live-verification.json y en las capturas con prefijo live de output/screenshots.
 
-Se configuró un workflow de GitHub Actions para instalación, lint, cobertura, build y navegador. Su ejecución remota queda pendiente de publicar el repositorio; la configuración existe, pero no se atribuye un resultado de CI que todavía no ha ocurrido.
+El workflow de GitHub Actions ejecuta instalación, lint, formato, cobertura, build y navegador. Sus ejecuciones y resultados remotos se consultan en https://github.com/produbase/hanna-frontend-test/actions. La evidencia local descrita arriba se conserva junto al código.
 
 <!-- page -->
 
@@ -173,7 +173,7 @@ README.md explica el arranque, los scripts y las decisiones principales. docs/me
 
 El primer commit incluye README, alcance e instrucciones. El siguiente incorpora las funcionalidades principales. Los hitos posteriores recogen pruebas de navegador, ajustes derivados de su ejecución, nombre Hanna y documentación final. El historial se puede inspeccionar con git log --oneline.
 
-El repositorio es local y no tiene remoto configurado. Para cumplir la entrega pública del enunciado, crear el repositorio del candidato en GitHub, GitLab o Bitbucket y configurar su URL como origin antes de hacer push de main. No se ha publicado contenido en una cuenta externa.
+El repositorio público es https://github.com/produbase/hanna-frontend-test, configurado como origin. Se realizaron subidas separadas para los cuatro hitos, conservando los commits originales y las etiquetas hito-01-readme, hito-02-aplicacion, hito-03-calidad y hito-04-documentacion. La revisión final de entrega se publica en main con la etiqueta entrega-final.
 
 ## Límites conocidos
 

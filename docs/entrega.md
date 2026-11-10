@@ -1,16 +1,16 @@
 # Checklist de entrega de Hanna
 
-Esta lista contrasta la entrega con el PDF facilitado. Distingue los requisitos de la aplicación de las condiciones de presentación. Los estados reflejan el repositorio local; no equivalen a una publicación remota.
+Esta lista contrasta la entrega con el PDF facilitado. Distingue los requisitos de la aplicación de las condiciones de presentación. El repositorio público de entrega es [produbase/hanna-frontend-test](https://github.com/produbase/hanna-frontend-test); las subidas conservan el historial original.
 
 ## Presentación e historial
 
-| Petición del enunciado                                                        | Estado y evidencia                                                                                                                                        |
-| ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Presentar el proyecto en un repositorio público de GitHub, GitLab o Bitbucket | **Pendiente**. No hay remoto `origin` configurado ni se ha publicado el proyecto.                                                                         |
-| Permitir una evolución del código por hitos                                   | Preparado con commits reales y etiquetas locales. El PDF no fija número, nombres ni frecuencia de los hitos. Todavía no se han realizado subidas remotas. |
-| Incluir un README, preferiblemente desde el primer commit                     | Cumplido: `README.md` está en el commit raíz `cb50258`.                                                                                                   |
-| Explicar cómo ejecutar y añadir notas útiles                                  | Cumplido en `README.md`: requisitos, instalación, comandos, variables, hosting y decisiones.                                                              |
-| Disponer de scripts START, BUILD, TEST y LINT                                 | Cumplido con los nombres convencionales `start`, `build`, `test` y `lint` en `package.json`.                                                              |
+| Petición del enunciado                                                        | Estado y evidencia                                                                                                                                                         |
+| ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Presentar el proyecto en un repositorio público de GitHub, GitLab o Bitbucket | Cumplido: [repositorio público](https://github.com/produbase/hanna-frontend-test), configurado como `origin`.                                                              |
+| Permitir una evolución del código por hitos                                   | Cumplido: cuatro subidas separadas, verificando el commit remoto tras cada paso, seguidas de la revisión final. El PDF no fija número, nombres ni frecuencia de los hitos. |
+| Incluir un README, preferiblemente desde el primer commit                     | Cumplido: `README.md` está en el commit raíz `cb50258`.                                                                                                                    |
+| Explicar cómo ejecutar y añadir notas útiles                                  | Cumplido en `README.md`: requisitos, instalación, comandos, variables, hosting y decisiones.                                                                               |
+| Disponer de scripts START, BUILD, TEST y LINT                                 | Cumplido con los nombres convencionales `start`, `build`, `test` y `lint` en `package.json`.                                                                               |
 
 ### Hitos reales preparados
 
@@ -61,15 +61,18 @@ git tag --list 'hito-*'
 | Usar GET /api/product, GET /api/product/:id y POST /api/cart                                                   | `src/lib/api.js`; comprobación real adicional mediante `scripts/verify-live.mjs`.                                                        |
 | Cachear las lecturas en cliente durante una hora y revalidar tras caducar                                      | `src/lib/cache.js`: memoria y localStorage, TTL de 3 600 000 ms y revalidación en el siguiente acceso; pruebas unitarias y de navegador. |
 
-## Publicación pendiente
+## Publicación y revisión final
 
-La entrega no estará completa respecto al repositorio público hasta configurar el destino y publicarlo. Al hacerlo:
+Se ha creado el repositorio público y se han publicado los cuatro hitos en orden, mediante actualizaciones sucesivas de `main`. Cada subida incluyó la etiqueta correspondiente y se verificó con `git ls-remote` que el servidor apuntaba al commit esperado. La revisión final agrupa la checklist y la actualización de la documentación, identificada mediante `entrega-final`.
 
-1. Utilizar un repositorio del candidato, vacío y público, en uno de los proveedores permitidos.
-2. Publicar la rama `main` conservando todos los commits y las etiquetas `hito-*`, sin squash ni sustitución por un único commit final.
-3. Comprobar que el README, el historial y el código son accesibles sin iniciar sesión.
-4. Verificar una instalación desde un clon limpio y ejecutar los cuatro scripts requeridos.
-5. Si se usa GitHub, comprobar el resultado del workflow configurado. Su ejecución remota todavía no se ha validado.
+- [Código y README](https://github.com/produbase/hanna-frontend-test).
+- [Historial público](https://github.com/produbase/hanna-frontend-test/commits/main/).
+- [Etiquetas de los hitos](https://github.com/produbase/hanna-frontend-test/tags).
+- [Ejecuciones de CI](https://github.com/produbase/hanna-frontend-test/actions).
+
+Las fechas de los commits corresponden al desarrollo local. Las subidas se realizan posteriormente, sin alterar esas fechas ni reconstruir el historial. El enunciado no exige simular una cadencia de trabajo ni una duración mínima entre subidas.
+
+Para revisar la entrega desde cero, clonar el repositorio, instalar con `pnpm install --frozen-lockfile` y ejecutar `pnpm start`, `pnpm build`, `pnpm test` y `pnpm lint`. Las pruebas E2E y el formato se comprueban adicionalmente en CI. El README sigue presente en el primer commit público.
 
 El enunciado no exige desplegar una web pública, usar GitHub específicamente, crear un backend propio, incorporar CI, aportar una memoria Word ni alcanzar un porcentaje concreto de cobertura. La CI y la memoria son complementos de esta entrega.
 
