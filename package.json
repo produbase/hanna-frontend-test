@@ -1,5 +1,5 @@
 {
-  "name": "atelier-mobile-itx",
+  "name": "hanna-tienda-online-itx",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -15,7 +15,9 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
-    "lint": "eslint . --max-warnings 0"
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write src tests scripts/*.mjs index.html \"*.config.js\" package.json README.md docs/*.md .github/workflows/ci.yml",
+    "format:check": "prettier --check src tests scripts/*.mjs index.html \"*.config.js\" package.json README.md docs/*.md .github/workflows/ci.yml"
   },
   "dependencies": {
     "react": "19.3.1",
@@ -37,6 +39,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.14.0",
     "jsdom": "^31.0.0",
+    "prettier": "^3.9.10",
     "vite": "8.3.7",
     "vitest": "5.1.0"
   }

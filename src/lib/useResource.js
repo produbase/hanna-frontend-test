@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export function useResource(key, load) {
   const [attempt, setAttempt] = useState(0);
@@ -7,11 +7,17 @@ export function useResource(key, load) {
   useEffect(() => {
     let active = true;
     load().then(
-      (data) => { if (active) setResult({ key: requestKey, data }); },
-      (error) => { if (active) setResult({ key: requestKey, error }); },
+      (data) => {
+        if (active) setResult({ key: requestKey, data });
+      },
+      (error) => {
+        if (active) setResult({ key: requestKey, error });
+      },
     );
     // Ignore late results after navigation; shared cache requests remain useful to other consumers.
-    return () => { active = false; };
+    return () => {
+      active = false;
+    };
   }, [requestKey, load]);
   return {
     data: result?.key === requestKey ? result.data : undefined,

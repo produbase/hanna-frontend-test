@@ -1,6 +1,12 @@
-export const isProduct = (value) => Boolean(value && typeof value.id === 'string' &&
-  typeof value.brand === 'string' && typeof value.model === 'string');
-export const isCatalog = (value) => Array.isArray(value) && value.every(isProduct);
+export const isProduct = (value) =>
+  Boolean(
+    value &&
+    typeof value.id === "string" &&
+    typeof value.brand === "string" &&
+    typeof value.model === "string",
+  );
+export const isCatalog = (value) =>
+  Array.isArray(value) && value.every(isProduct);
 
 export function normalizeProduct(raw) {
   return {
@@ -16,22 +22,47 @@ export function normalizeProduct(raw) {
 }
 
 function validOptions(options) {
-  return Array.isArray(options) ? options.filter((item) => item &&
-    (typeof item.code === 'number' || typeof item.code === 'string') && typeof item.name === 'string') : [];
+  return Array.isArray(options)
+    ? options.filter(
+        (item) =>
+          item &&
+          (typeof item.code === "number" || typeof item.code === "string") &&
+          typeof item.name === "string",
+      )
+    : [];
 }
 
 export function formatPrice(value) {
-  if (value === '' || value == null || !Number.isFinite(Number(value)) || Number(value) < 0) return 'Precio no disponible';
-  return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 2 }).format(Number(value));
+  if (
+    value === "" ||
+    value == null ||
+    !Number.isFinite(Number(value)) ||
+    Number(value) < 0
+  )
+    return "Precio no disponible";
+  return new Intl.NumberFormat("es-ES", {
+    style: "currency",
+    currency: "EUR",
+    maximumFractionDigits: 2,
+  }).format(Number(value));
 }
 
 export function filterProducts(products, query) {
-  const normalize = (text) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const normalize = (text) =>
+    text
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
   const words = normalize(query.trim()).split(/\s+/);
-  return products.filter((product) => words.every((word) => normalize(`${product.brand} ${product.model}`).includes(word)));
+  return products.filter((product) =>
+    words.every((word) =>
+      normalize(`${product.brand} ${product.model}`).includes(word),
+    ),
+  );
 }
 
 export function formatSpec(value) {
-  if (Array.isArray(value)) return value.filter(Boolean).join(' · ') || 'No disponible';
-  return value || 'No disponible';
+  if (Array.isArray(value))
+    return value.filter(Boolean).join(" · ") || "No disponible";
+  return value || "No disponible";
 }
