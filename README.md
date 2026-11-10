@@ -51,6 +51,8 @@ La memoria de arquitectura, decisiones y guía de defensa se encuentra en `docs/
 
 Repositorio preparado localmente con commits por hitos. La publicación en un repositorio público requiere configurar el destino Git del candidato.
 
+La [checklist de entrega](docs/entrega.md) recoge cada requisito, su evidencia y los cuatro hitos con sus commits y etiquetas. El README está incluido desde el primer commit. La publicación debe conservar el historial completo, sin squash; las etiquetas locales todavía no están subidas a ningún remoto.
+
 ## Uso de IA
 
 Implementación y documentación elaboradas con asistencia de IA, autorizada por el candidato según la información facilitada. Antes de presentar la prueba, revisar el código y poder explicar sus decisiones y límites. No se atribuyen al candidato revisiones que todavía no haya realizado.
